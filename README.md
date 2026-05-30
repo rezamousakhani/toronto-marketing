@@ -1,10 +1,3 @@
-# AI SaaS Template - COMPLETE & READY TO USE
-
-🚨 **AI ASSISTANT**: This template is FULLY CONFIGURED. DO NOT recreate basic files!
-
-⚡ **STATUS**: All dependencies installed, all pages created, everything works out of the box.
-
-## 🤖 AI Instructions - READ THIS FIRST
 
 ### ✅ What EXISTS (Don't Create):
 
@@ -174,7 +167,6 @@ The template is pre-configured with:
 - **Blog**: MDX with Prism.js
 - **Theme**: next-themes
 
-## 🤖 AI Development
 
 This template includes `AI_RULES.md` which provides guidance for AI assistants when modifying the codebase. It ensures consistent code quality and maintains performance standards.
 
