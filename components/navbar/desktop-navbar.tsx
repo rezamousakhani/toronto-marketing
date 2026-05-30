@@ -1,76 +1,58 @@
 "use client";
-import { Logo } from "@/components/Logo";
 
-import { NavBarItem } from "./navbar-item";
-import {
-  useMotionValueEvent,
-  useScroll,
-  motion,
-  AnimatePresence,
-} from "framer-motion";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Logo } from "@/components/logo";
+import { Button } from "@/components/ui/button";
 
-type Props = {
-  navItems: {
-    link: string;
-    title: string;
-    target?: "_blank";
-  }[];
-};
+const navItems = [
+  { title: "Services", link: "/#services" },
+  { title: "Results", link: "/#results" },
+  { title: "Process", link: "/#process" },
+  { title: "Industries", link: "/#industries" },
+  { title: "FAQ", link: "/#faq" },
+];
 
-export const DesktopNavbar = ({ navItems }: Props) => {
-  const { scrollY } = useScroll();
+export function DesktopNavbar() {
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const [showBackground, setShowBackground] = useState(false);
-
-  useMotionValueEvent(scrollY, "change", (value) => {
-    if (value > 100) {
-      setShowBackground(true);
-    } else {
-      setShowBackground(false);
-    }
-  });
   return (
-    <div
+    <header
       className={cn(
-        "w-full flex relative justify-between px-4 py-2 rounded-full bg-white/80 backdrop-blur-md transition duration-200",
-        showBackground &&
-          "bg-white shadow-[0px_-2px_0px_0px_var(--neutral-100),0px_2px_0px_0px_var(--neutral-100)]",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        isScrolled
+          ? "bg-[#0a1628]/95 backdrop-blur-md border-b border-white/10 shadow-xl"
+          : "bg-transparent"
       )}
     >
-      <AnimatePresence>
-        {showBackground && (
-          <motion.div
-            key={String(showBackground)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              duration: 1,
-            }}
-            className="absolute inset-0 h-full w-full bg-neutral-100 pointer-events-none [mask-image:linear-gradient(to_bottom,white,transparent,white)] rounded-full"
-          />
-        )}
-      </AnimatePresence>
-      <div className="flex flex-row gap-2 items-center">
-        <Logo />
-        <div className="flex items-center gap-1.5">
-          {navItems.map((item) => (
-            <NavBarItem href={item.link} key={item.title} target={item.target}>
-              {item.title}
-            </NavBarItem>
-          ))}
+      <nav className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2">
+            <Logo />
+          </Link>
+
+          <div className="hidden lg:flex items-center gap-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.title}
+                href={item.link}
+                className="text-white/80 hover:text-white transition-colors text-sm font-medium"
+              >
+                {item.title}
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden lg:flex items-center gap-4">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 text-sm font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-blue-600/25">
+              <Link href="/contact">Book Free Strategy Call</Link>
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className="flex space-x-2 items-center">
-        {/* Login/Signup buttons - uncomment to enable authentication */}
-        {/* <Button variant="ghost" asChild href="/login">
-          Login
-        </Button>
-        <Button asChild href="/signup">
-          Sign Up
-        </Button> */}
-      </div>
-    </div>
+      </nav>
+    </header>
   );
-};
+}
